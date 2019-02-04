@@ -1,4 +1,3 @@
-
 enum play_commands{detection_left, detection_right, detection_both, no_detections, do_nothing};
 
 class buzzer{
