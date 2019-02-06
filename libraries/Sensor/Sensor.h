@@ -80,18 +80,18 @@ public:
 	{
 		input_A1=success_input_1;
 		if(input_A1<= 500)
-			return false;  //input_1 is OFF
+			return true;  //input_1 - Magnet detected
 		else 
-			return true;  // input_1 is ON
+			return false;  // input_1 - No magnet
 	}
 	
 	boolean return_input_2()
 	{
 		input_B2=success_input_2;
 		if(input_B2<= 500)
-			return false;  //input_2 is OFF
+			return true;  //input_2 - Magnet detected
 		else 
-			return true;  //input_2 is ON
+			return false;  //input_2 - No magnet
 	}
 	
 };
