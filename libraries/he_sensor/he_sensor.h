@@ -7,7 +7,7 @@
 #include <Arduino.h>
 #endif
 
-#include<Basic_input.h>
+#include<Basic_Input.h>
 
 //  ==== sensor ====
 
@@ -17,7 +17,7 @@ private:
 	in_analog input_1, input_2;
 	boolean enabled;
 	int input_A, input_B;
-	int input_1_pin, input_2_pin;
+	
 public:
 	// default constructor
 	he_sensor() {enabled = false;}
@@ -25,7 +25,7 @@ public:
 	//checks if the unit is enabled
 	boolean isEnabled() {return enabled;}
 	
-	void setup_he_sensor(int input_1_pin,int input_2_pin)  // declare the input pins
+	void setup_he_sensor(int input_1_pin,int input_2_pin)  // declare the input pins, needed once
 	{
 		if(!isEnabled())
 		{
@@ -40,12 +40,11 @@ public:
 		}
 	}
 	
-	void read_inputs(int input_A, int input_B)   // read the values from the pin
+	void read_inputs(int input_1_pin, int input_2_pin)   // read the values from the pin
 	{
+		// assign values to the variables that are going to be used in the next 2 functions.(return_input_1, return_input_2)
 		input_A=analogRead(input_1_pin);
 		input_B=analogRead(input_2_pin);
-		
-		 // used to assign the values to the variables
 	}
 	
 	boolean return_input_1()
