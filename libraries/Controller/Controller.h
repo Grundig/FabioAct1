@@ -10,13 +10,16 @@ class controller {
 protected:
 	//Default value for the interval between measurements (in millisec)
 	static const int default_check_interval_ms = 1000;
+	static const int detection_interval = 200;
 	//Now we need variables for the length of time between when we check the Hall Effect Sensor outputs.
-	unsigned long check_interval_ms, last_check_time, last_detection_time;
+	unsigned long check_interval_ms, last_check_time, last_detection_time,current_time;
 	//Creates two separate "play_commands" from Kamil's code, which are the case options
 	//which define which tone the buzzer plays.
 	play_commands command_after_last_check, command_after_current_check;
 	he_sensor sensing_unit;
 	buzzer action_unit;
+	int counter;
+
 
 public:
 	//Default Constructor
@@ -44,13 +47,12 @@ public:
 	void setup_controller(int in_check_interval_ms)
 	{
 		check_interval_ms = abs(in_check_interval_ms);
-		detection_interval = 200;
 		last_detection_time = 0;
 		counter = 0;
 	}
 
 	//Verify if it's time to take a new input measurement.
-	boolean is_time_to_take_measurement()
+	bool is_time_to_take_measurement()
 	{
 		//Checks the current time
 		unsigned long current_time = millis();
@@ -86,7 +88,7 @@ public:
 	play_commands issueCommand()
 	{
 		//Now we need to avoid making decisions if the time is too early.
-		if (is_Time_To_Take_Measurement())
+		if (is_time_to_take_measurement())
 		{
 			int counter = count_detection();
 			//Take the current time as the most recent when a successful measurement was take
@@ -98,23 +100,23 @@ public:
 			{
 				if (!sensing_unit.return_input_2)
 				{
-					action_unit.detection_signal(detection_left,counter)
+					action_unit.detection_signal(detection_left, counter);
 				}
 			}
 			else if (sensing_unit.return_input_2())
 			{
 				if (!sensing_unit.return_input_1())
 				{
-					action_unit.detection_signal(detection_right,counter)
+					action_unit.detection_signal(detection_right, counter);
 				}
 			}
 			else if (sensing_unit.return_input_1() && sensing_unit.return_input_2())
 			{
-				action_unit.detection_signal(detection_both,counter)
+				action_unit.detection_signal(detection_both, counter);
 			}
 			else if (!sensing_unit.return_input_1() && !sensing_unit.return_input_2())
 			{
-				action_unit.detection_signal(do_nothing)
+				action_unit.detection_signal(do_nothing);
 			}
 		}
 	}
