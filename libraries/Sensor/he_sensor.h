@@ -7,36 +7,7 @@
 #include <Arduino.h>
 #endif
 
-// ==== analog input ===
-class in_analog{
-private:	
-	int AnalogPin;
-	boolean initialized;
-	//		
-public:
-	in_analog(){AnalogPin=-1; initialized=false;}
-	in_analog(int in_Pin) {AnalogPin=-1; initialized=false; setup_in_analog(in_Pin);} 
-	void setup_in_analog(int in_Pin)
-	{
-		if(in_Pin>=0)
-		{
-			AnalogPin=in_Pin;
-			initialized=true;
-		}
-	}
-	inline boolean isInitialized() {return initialized;}
-	inline boolean read_input(int& val)
-	{
-		boolean success=false;
-		val=-1;
-		if(initialized)
-		{
-			val=analogRead(AnalogPin);// range is: [0 , 1023]
-			success=true;
-		}
-		return success;
-	}
-};
+#include<Basic_input.h>
 
 //  ==== sensor ====
 
