@@ -18,7 +18,8 @@ protected:
 
 public:
 	void setup_sensing(int right_in_pin, int left_in_pin){
-		sensing_unit.
+		sensing_unit.setup_he_sensor(right_in_pin, left_in_pin);
+		check_all_enabled();
 	}
 
 	void setup_action(int buzzer_pin){
