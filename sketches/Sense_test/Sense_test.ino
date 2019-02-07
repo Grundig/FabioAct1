@@ -1,31 +1,26 @@
-#include <Basic_Input.h>
 #include <Beginner_LED.h>
 #include <he_sensor.h>
 
 // global-scope variable
-in_analog an_inp[2];
-ana_LED led[5];
-he_sensor sense;
 
-// variable brightness led
-//ana_LED variable_LED;
+dig_LED led1, led2;
+he_sensor sense, an_inp;
 
 void setup()
 {  
   // initialize as input pin (only needed once).
-  int inp_A=A0;
-  int inp_B=A1;
-  an_inp[0].setup_in_analog(A0);
-  an_inp[1].setup_in_analog(A1);
+  sense.setup_he_sensor(A0,A1);
   
-  led[0].setup_LED(13);  
-  led[1].setup_LED(11);
+  led1.setup_LED(13);  
+  led2.setup_LED(12);
+  
   Serial.begin(9600);
 }
 
 void loop()
 {
     int inp1, inp2;
+    
     inp1=analogRead(A0);
     inp2=analogRead(A1);
 
@@ -36,25 +31,25 @@ void loop()
     Serial.println("Input_2:");
 
     Serial.println(inp2);
+    
+  sense.read_inputs(A0,A1);
 
-  sense.read_inputs(i, inp2);
-
-
-  while(sense.return_input_1()== false)
+  if(sense.return_input_1() == true)
   {
-    led[0].switch_on();
+    led1.switch_on();
   }
-  /*else
+  else
   {
-    led[0].switch_off();
+    led1.switch_off();
   }
-  if(sense.return_input_2()== true)
+
+  if(sense.return_input_2(inp2) == true)
   {
-    led[1].switch_on();
+    led2.switch_on();
     }
   else
   {
-    led[1].switch_off();
-  }*/
+    led2.switch_off();
+  }
   delay(2000);
 }
