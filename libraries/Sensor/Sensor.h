@@ -1,5 +1,5 @@
-#ifndef SENSOR_h
-#define SENSOR_h
+#ifndef HE_SENSOR_h
+#define HE_SENSOR_h
 
 #ifdef COMPILE_CPP_NOT_ARDUINO
 #include "..\All_Arduino_or_Cpp_symboldefines\All_Arduino_or_Cpp_symboldefines.h"
