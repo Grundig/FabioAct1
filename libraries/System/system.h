@@ -26,9 +26,19 @@ public:
 	}
 
 	void setup_control(int in_delta_input, int in_check_interval_ms){
-		contor_unit.setup_controller(in_delta_input, in_check_interval_ms);
+		contor_unit.setup_controller(in_check_interval_ms);
 	}
 
+	// this is the main function that the system performs
+	void execute_system_task(){
+		if(control_unit.isTimeToTakeMeasurement()){
+			
+			control_unit.issueCommand();
+			
+			
+			
+		}
+	}
 
 
 };

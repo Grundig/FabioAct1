@@ -1,3 +1,8 @@
+#include "..\Beginner_LED\Beginner_LED.h"
+
+
+
+
 enum play_commands{detection_left, detection_right, detection_both, no_detections, do_nothing};
 
 class buzzer{
@@ -9,12 +14,13 @@ protected:
 	int tone3 = 349;
 	int play_time = 250; //sound length in ms
 	bool enabled;
-	
+	int buzzer_pin;
 public:
 	buzzer_setup(){ enabled = false; }
 	
-	buzzer_setup(int buzzer_pin){
+	buzzer_setup(out_pin){
 	//set up pin mode as well as initialize flag
+		buzzer_pin = out_pin;
 		pinMode(buzzer_pin, OUTPUT);
 		enabled = true;	
 	}
@@ -22,7 +28,7 @@ public:
 	bool is_enabled(){ return enabled; }
 	
 	//action function
-	void play_tone(out_tone, int detections = 1){
+	void play_tone(int out_tone, int detections = 1){
 		if ( is_enabled() ){	
 			int duration = play_time * detections;
 			tone(buzzer_pin, out_tone, duration);
