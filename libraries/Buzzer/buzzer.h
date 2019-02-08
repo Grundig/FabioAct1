@@ -1,3 +1,6 @@
+#ifndef BUZZER_h
+#define Buzzer_h
+#endif
 #include "..\Beginner_LED\Beginner_LED.h"
 
 
@@ -16,9 +19,9 @@ protected:
 	bool enabled;
 	int buzzer_pin;
 public:
-	buzzer_setup(){ enabled = false; }
+	setup_buzzer(){ enabled = false; }
 	
-	buzzer_setup(out_pin){
+	setup_buzzer(int out_pin){
 	//set up pin mode as well as initialize flag
 		buzzer_pin = out_pin;
 		pinMode(buzzer_pin, OUTPUT);

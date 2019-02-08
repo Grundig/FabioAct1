@@ -1,8 +1,8 @@
 #ifndef Controller
 #define Controller
 
-#include "..\Buzzer\buzzer.h"
-#include "..\Sensor\sensor.h"
+//#include "..\Buzzer\buzzer.h"
+#include "..\he_sensor\he_sensor.h"
 #endif
 
 class controller {

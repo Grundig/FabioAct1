@@ -15,7 +15,7 @@ class he_sensor{
 private:
 	
 	in_analog input_1, input_2;
-	boolean enabled;
+	bool enabled;
 	int input_A, input_B;
 	
 public:
@@ -23,11 +23,11 @@ public:
 	he_sensor() {enabled = false;}
 		
 	//checks if the unit is enabled
-	boolean isEnabled() {return enabled;}
+	bool is_enabled() {return enabled;}
 	
 	void setup_he_sensor(int input_1_pin,int input_2_pin)  // declare the input pins, needed once
 	{
-		if(!isEnabled())
+		if(!is_enabled())
 		{
 			if(!input_1.isInitialized())
 				input_1.setup_in_analog(input_1_pin);
@@ -47,7 +47,7 @@ public:
 		input_B=analogRead(input_2_pin);
 	}
 	
-	boolean return_input_1()
+	bool return_input_1()
 	{
 		if(input_A <= 500)
 		{
@@ -61,7 +61,7 @@ public:
 			
 	}
 	
-	boolean return_input_2()
+	bool return_input_2()
 	{
 		if(input_B <= 500)
 		{
