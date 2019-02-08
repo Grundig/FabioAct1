@@ -98,7 +98,7 @@ public:
 
 			if (sensing_unit.return_input_1())
 			{
-				if (!sensing_unit.return_input_2)
+				if (!sensing_unit.return_input_2())
 				{
 					action_unit.detection_signal(detection_left, counter);
 				}
