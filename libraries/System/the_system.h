@@ -2,10 +2,10 @@
 #define system_h
 
 #include <Arduino.h>
-#include "..\Buzzer\buzzer.h"
+//#include "..\Buzzer\buzzer.h"
 #include "..\Controller\Controller.h" //Joshua's function
 #include "..\he_sensor\he_sensor.h" //Gabriel's function
-#endif
+
 class the_system{
 protected:
 	buzzer action_unit;
@@ -34,14 +34,12 @@ public:
 
 	// this is the main function that the system performs
 	void execute_system_task(){
-		if(control_unit.is_time_to_take_measurement()){
-			
-			control_unit.issueCommand();
+		control_unit.issueCommand();
+		Serial.println("execute_ system_task");
 			//runs the main function from the controll
-			
-			
-		}
 	}
 
 
 };
+
+#endif
