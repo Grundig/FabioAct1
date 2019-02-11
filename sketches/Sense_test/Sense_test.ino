@@ -43,7 +43,7 @@ void loop()
     led1.switch_off();
   }
 
-  if(sense.return_input_2(inp2) == true)
+  if(sense.return_input_2() == true)
   {
     led2.switch_on();
     }
