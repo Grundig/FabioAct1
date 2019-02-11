@@ -34,6 +34,7 @@ public:
 		if ( is_enabled() ){	
 			int duration = play_time * detections;
 			tone(buzzer_pin, out_tone, duration);
+			delay(duration);
 			Serial.print("in play_tone: ");
 			Serial.println(out_tone);
 		}

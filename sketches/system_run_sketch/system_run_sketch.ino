@@ -38,7 +38,7 @@ void loop() {
 
     Serial.println(inp2);
   system_unit.execute_system_task(right_in_pin, left_in_pin);
-  delay(2000);
+  
   Serial.println("============");
   Serial.println();
 }
