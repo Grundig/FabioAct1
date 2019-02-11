@@ -1,9 +1,9 @@
 #ifndef Controller
 #define Controller
 
-//#include "..\Buzzer\buzzer.h"
-#include "..\he_sensor\he_sensor.h"
-#endif
+#include <buzzer.h>
+#include <he_sensor.h>
+
 
 class controller {
 
@@ -54,15 +54,18 @@ public:
 	//Verify if it's time to take a new input measurement.
 	bool is_time_to_take_measurement()
 	{
+		Serial.println("measurement: called");
 		//Checks the current time
 		unsigned long current_time = millis();
 		if ((current_time - last_check_time) >= check_interval_ms)
 		{
+			Serial.println("measurement: interval success");
 			last_check_time = current_time;
 			return true;
 		}
 		else
 		{
+			Serial.println("measurement: interval fail");
 			return false;
 		}
 	}
@@ -87,10 +90,12 @@ public:
 	}
 	play_commands issueCommand()
 	{
+		Serial.println("before time to measure");
 		//Now we need to avoid making decisions if the time is too early.
 		if (is_time_to_take_measurement())
 		{
 			int counter = count_detection();
+			Serial.println("time to measure");
 			//Take the current time as the most recent when a successful measurement was take
 			last_check_time = millis();
 			//Now we decide which action to take;
@@ -101,6 +106,7 @@ public:
 				if (!sensing_unit.return_input_2())
 				{
 					action_unit.detection_signal(detection_left, counter);
+					Serial.println("sense input 1");
 				}
 			}
 			else if (sensing_unit.return_input_2())
@@ -108,17 +114,22 @@ public:
 				if (!sensing_unit.return_input_1())
 				{
 					action_unit.detection_signal(detection_right, counter);
+					Serial.println("sense input 2");
 				}
 			}
 			else if (sensing_unit.return_input_1() && sensing_unit.return_input_2())
 			{
 				action_unit.detection_signal(detection_both, counter);
+				Serial.println("sense both");
 			}
 			else if (!sensing_unit.return_input_1() && !sensing_unit.return_input_2())
 			{
 				action_unit.detection_signal(do_nothing);
+				Serial.println("sense none");
 			}
 		}
 	}
 
 };
+
+#endif
