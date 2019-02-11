@@ -17,6 +17,7 @@ private:
 	in_analog input_1, input_2;
 	bool enabled;
 	int input_A, input_B;
+	int input_A_pin, input_B_pin;
 	
 public:
 	// default constructor
@@ -31,13 +32,16 @@ public:
 		{
 			if(!input_1.isInitialized())
 				input_1.setup_in_analog(input_1_pin);
+				input_A_pin= input_1_pin;
 			
 			if(!input_2.isInitialized())
 				input_2.setup_in_analog(input_2_pin);
+				input_B_pin= input_2_pin;
 				
 			if(input_1.isInitialized() && input_2.isInitialized())
 				enabled=true;
 		}
+		
 	}
 	
 	void read_inputs(int input_1_pin, int input_2_pin)   // read the values from the pin
@@ -49,13 +53,17 @@ public:
 	
 	bool return_input_1()
 	{
+		input_A=analogRead(input_A_pin);
+		Serial.println(input_A);
 		if(input_A <= 500)
 		{
+			Serial.println("Input 1 high");
 			return true;  //input_1 - Magnet detected
 		}
 			
 		else
 		{
+			Serial.println("Input 1 low");
 		 return false;  // input_1 - No magnet
 		} 
 			
@@ -63,12 +71,16 @@ public:
 	
 	bool return_input_2()
 	{
+		input_B=analogRead(input_B_pin);
+		Serial.println(input_B);
 		if(input_B <= 500)
 		{
+			Serial.println("Input 2 high");
 			return true;  //input_2 - Magnet detected
 		}
 		else
 		{
+			Serial.println("Input 2 low");
 			return false;  //input_2 - No magnet
 		 } 
 			
