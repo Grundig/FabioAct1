@@ -7,15 +7,14 @@
 
 
 enum play_commands{detection_left, detection_right, detection_both, no_detections, do_nothing};
+int tone0 = 261; //sound frequency in Hz
+int tone1 = 523;
+int tone2 = 466;
+int tone3 = 349;
+int play_time = 1000; //sound length in ms
 
 class buzzer{
 protected:
-	int reset = -1; //buzzer off
-	int tone0 = 261; //sound frequency in Hz
-	int tone1 = 523;
-	int tone2 = 466;
-	int tone3 = 349;
-	int play_time = 250; //sound length in ms
 	bool enabled;
 	int buzzer_pin;
 public:
@@ -35,6 +34,8 @@ public:
 		if ( is_enabled() ){	
 			int duration = play_time * detections;
 			tone(buzzer_pin, out_tone, duration);
+			Serial.print("in play_tone: ");
+			Serial.println(out_tone);
 		}
 	}
 	
@@ -46,26 +47,28 @@ public:
 		if ( is_enabled() ){
 			switch(detection){
 				case detection_left:
+					
 					play_tone(tone1, detections);
 					play_tone(tone0);				
-					play_tone(reset);
+					
 					break;
 				case detection_right:
 					play_tone(tone2, detections);
 					play_tone(tone0);
-					play_tone(reset);
+					
 					break;
 				case detection_both:
 					play_tone(tone3, detections);
 					play_tone(tone0);
-					play_tone(reset);
+					
 					break;
 				case no_detections:
 					play_tone(tone0);
-					play_tone(reset);
+					
 					break;
 				case do_nothing:
-					play_tone(reset);
+					Serial.println("detection_signal: do nothing");
+					
 				default:
 					break;
 			}

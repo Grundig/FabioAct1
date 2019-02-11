@@ -12,12 +12,12 @@
 //  ==== sensor ====
 
 class he_sensor{
-private:
+protected:
 	
 	in_analog input_1, input_2;
 	bool enabled;
 	int input_A, input_B;
-	int input_A_pin, input_B_pin;
+	
 	
 public:
 	// default constructor
@@ -30,30 +30,28 @@ public:
 	{
 		if(!is_enabled())
 		{
+			
 			if(!input_1.isInitialized())
 				input_1.setup_in_analog(input_1_pin);
-				input_A_pin= input_1_pin;
+		
 			
 			if(!input_2.isInitialized())
 				input_2.setup_in_analog(input_2_pin);
-				input_B_pin= input_2_pin;
-				
+		
 			if(input_1.isInitialized() && input_2.isInitialized())
 				enabled=true;
 		}
 		
 	}
+
 	
-	void read_inputs(int input_1_pin, int input_2_pin)   // read the values from the pin
-	{
-		// assign values to the variables that are going to be used in the next 2 functions.(return_input_1, return_input_2)
-		input_A=analogRead(input_1_pin);
-		input_B=analogRead(input_2_pin);
-	}
-	
-	bool return_input_1()
-	{
-		input_A=analogRead(input_A_pin);
+	bool return_input_1(int input_A_pin)
+	{	
+		input_A = analogRead(input_A_pin);
+		Serial.print("input A: ");
+		Serial.print(input_A_pin);
+		Serial.print(" ");
+		
 		Serial.println(input_A);
 		if(input_A <= 500)
 		{
@@ -69,9 +67,14 @@ public:
 			
 	}
 	
-	bool return_input_2()
+	bool return_input_2(int input_B_pin)
 	{
+		input_B_pin = 15;
 		input_B=analogRead(input_B_pin);
+		Serial.print("input B: ");
+		Serial.print(input_B_pin);
+		Serial.print(" ");
+		
 		Serial.println(input_B);
 		if(input_B <= 500)
 		{

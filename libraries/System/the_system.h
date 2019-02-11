@@ -21,6 +21,9 @@ public:
 	//default constructor
 	
 	void setup_sensing(int right_in_pin, int left_in_pin){
+		Serial.println("From: the system, setup_sensing: ");
+		Serial.println(right_in_pin);
+  		Serial.println(left_in_pin);
 		sensing_unit.setup_he_sensor(right_in_pin, left_in_pin);
 	} //runs the setup from sensing unit
 
@@ -33,8 +36,10 @@ public:
 	} //runs the setup from controller unit
 
 	// this is the main function that the system performs
-	void execute_system_task(){
-		control_unit.issueCommand();
+	void execute_system_task(int input_A_pin, int input_B_pin){
+		play_commands command = control_unit.issueCommand(input_A_pin, input_B_pin);
+		action_unit.detection_signal(command);
+		
 		Serial.println("execute_ system_task");
 			//runs the main function from the controll
 	}

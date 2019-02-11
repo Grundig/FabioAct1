@@ -54,32 +54,33 @@ public:
 	//Verify if it's time to take a new input measurement.
 	bool is_time_to_take_measurement()
 	{
-		Serial.println("measurement: called");
 		//Checks the current time
 		unsigned long current_time = millis();
 		if ((current_time - last_check_time) >= check_interval_ms)
 		{
-			Serial.println("measurement: interval success");
 			last_check_time = current_time;
 			return true;
 		}
 		else
 		{
-			Serial.println("measurement: interval fail");
 			return false;
 		}
 	}
 	//Now we begin to issue the actions, depending on the value of the two inputs
 	//Our inputs are from the Hall Effect sensors, so we need to include the same names
 	//used in the he_sensor.h file. TALK TO GABRIEL!
-	int count_detection()
+	int count_detection(int input_A_pin, int input_B_pin)
 	{
+	
+		
 		while ((current_time - last_check_time) <= check_interval_ms)
 		{
 			if ((current_time - last_detection_time) >= detection_interval)
 			{
 				last_detection_time = current_time;
-				if (sensing_unit.return_input_1() || sensing_unit.return_input_2())
+					bool input_1 = sensing_unit.return_input_1(input_A_pin);
+					bool input_2 = sensing_unit.return_input_2(input_B_pin);
+				if (input_1 || input_2)
 				{
 					counter++;
 
@@ -88,44 +89,42 @@ public:
 		}
 		return counter;
 	}
-	play_commands issueCommand()
+	play_commands issueCommand(int input_A_pin, int input_B_pin)
 	{
-		Serial.println("before time to measure");
 		//Now we need to avoid making decisions if the time is too early.
 		if (is_time_to_take_measurement())
 		{
-			int counter = count_detection();
-			Serial.println("time to measure");
+			int counter = count_detection(input_A_pin, input_B_pin);
 			//Take the current time as the most recent when a successful measurement was take
 			last_check_time = millis();
 			//Now we decide which action to take;
 			//referring to Kamils switch options based upon the input_1 and input_2 from Gabriels code.
-
-			if (sensing_unit.return_input_1())
+			bool input_1 = sensing_unit.return_input_1(input_A_pin);
+			bool input_2 = sensing_unit.return_input_2(input_B_pin);
+			
+			if (input_1 && !input_2)
 			{
-				if (!sensing_unit.return_input_2())
-				{
-					action_unit.detection_signal(detection_left, counter);
-					Serial.println("sense input 1");
-				}
+				action_unit.detection_signal(detection_left, counter);
+				Serial.println("sense input 1");
+				return detection_left;
 			}
-			else if (sensing_unit.return_input_2())
+			else if (input_2 && !input_1)
 			{
-				if (!sensing_unit.return_input_1())
-				{
-					action_unit.detection_signal(detection_right, counter);
-					Serial.println("sense input 2");
-				}
+				action_unit.detection_signal(detection_right, counter);
+				Serial.println("sense input 2");
+				return detection_right;
 			}
-			else if (sensing_unit.return_input_1() && sensing_unit.return_input_2())
+			else if (input_1 && input_2)
 			{
 				action_unit.detection_signal(detection_both, counter);
 				Serial.println("sense both");
+				return detection_both;
 			}
-			else if (!sensing_unit.return_input_1() && !sensing_unit.return_input_2())
+			else if (!input_1 && !input_2)
 			{
 				action_unit.detection_signal(do_nothing);
 				Serial.println("sense none");
+				return do_nothing;
 			}
 		}
 	}
