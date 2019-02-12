@@ -69,7 +69,7 @@ public:
 	//Now we begin to issue the actions, depending on the value of the two inputs
 	//Our inputs are from the Hall Effect sensors, so we need to include the same names
 	//used in the he_sensor.h file. TALK TO GABRIEL!
-	int count_detection()
+	int count_detection(int input_A_pin, int input_B_pin)
 	{
 		while ((current_time - last_check_time) <= check_interval_ms)
 		{
