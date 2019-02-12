@@ -2,7 +2,7 @@
 #define Controller
 
 #include <buzzer.h>
-#include <he_sensor.h>
+#include <sensor.h>
 
 
 class controller {
@@ -69,17 +69,15 @@ public:
 	//Now we begin to issue the actions, depending on the value of the two inputs
 	//Our inputs are from the Hall Effect sensors, so we need to include the same names
 	//used in the he_sensor.h file. TALK TO GABRIEL!
-	int count_detection(int input_A_pin, int input_B_pin)
+	int count_detection()
 	{
-	
-		
 		while ((current_time - last_check_time) <= check_interval_ms)
 		{
 			if ((current_time - last_detection_time) >= detection_interval)
 			{
 				last_detection_time = current_time;
-					bool input_1 = sensing_unit.return_input_1(input_A_pin);
-					bool input_2 = sensing_unit.return_input_2(input_B_pin);
+				bool input_1 = sensing_unit.return_input_1(input_A_pin);
+				bool input_2 = sensing_unit.return_input_2(input_B_pin);
 				if (input_1 || input_2)
 				{
 					counter++;
@@ -89,6 +87,8 @@ public:
 		}
 		return counter;
 	}
+
+
 	play_commands issueCommand(int input_A_pin, int input_B_pin)
 	{
 		//Now we need to avoid making decisions if the time is too early.
@@ -101,7 +101,7 @@ public:
 			//referring to Kamils switch options based upon the input_1 and input_2 from Gabriels code.
 			bool input_1 = sensing_unit.return_input_1(input_A_pin);
 			bool input_2 = sensing_unit.return_input_2(input_B_pin);
-			
+
 			if (input_1 && !input_2)
 			{
 				action_unit.detection_signal(detection_left, counter);
@@ -128,7 +128,24 @@ public:
 			}
 		}
 	}
-
+	
+	play_commands issueCommand(int input_A_pin, int input_B_pin)
+	{
+		//This is a simple peice of code for Task 1
+		if (is_time_to_take_measurement())
+		{
+			bool input_1 = sensing_unit.return_input_1(input_A_pin);
+			bool input_2 = sensing_unit.return_input_2(input_B_pin);
+			if (input_1 || input_2)
+			{
+				action_unit.detection_signal(detection_both, 1)
+			}
+			else
+			{
+				action_unit.detection_signal(do_nothing,1)
+			}
+		}
+	}
+	
 };
-
 #endif
